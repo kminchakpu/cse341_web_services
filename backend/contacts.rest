@@ -1,13 +1,13 @@
 ### Get all contacts
-GET http://localhost:8080/contacts
+GET https://cse341-web-services-1.onrender.com/contacts
 
 
 ### Get one contact
-GET http://localhost:8080/contacts/single?id=6a8dd0044700930c6ca3f5bc
+GET https://cse341-web-services-1.onrender.com/contacts/single?id=6a8dd0044700930c6ca3f5bc
 
 
 ### Create a new contact
-POST http://localhost:8080/contacts
+POST https://cse341-web-services-1.onrender.com/contacts
 Content-Type: application/json
 
 {
@@ -19,7 +19,7 @@ Content-Type: application/json
 }
 
 ### Update a contact
-PUT http://localhost:8080/contacts/6a9362ccde006c36262de4be
+PUT https://cse341-web-services-1.onrender.com/contacts/6a9362ccde006c36262de4be
 Content-Type: application/json
 
 {
@@ -31,15 +31,15 @@ Content-Type: application/json
 }
 
 ### Get one contact
-GET http://localhost:8080/contacts/single?id=6a9362ccde006c36262de4be
+GET https://cse341-web-services-1.onrender.com/contacts/single?id=6a9362ccde006c36262de4be
 
 ### Delete a contact
-DELETE http://localhost:8080/contacts/6a9362ccde006c36262de4be
+DELETE https://cse341-web-services-1.onrender.com/contacts/6a9362ccde006c36262de4be
 
 
 
 ### Test missing required fields
-POST http://localhost:8080/contacts
+POST https://cse341-web-services-1.onrender.com/contacts
 Content-Type: application/json
 
 {
@@ -49,7 +49,7 @@ Content-Type: application/json
 
 
 ### Test non-existent contact
-PUT http://localhost:8080/contacts/000000000000000000000000
+PUT https://cse341-web-services-1.onrender.com/contacts/000000000000000000000000
 Content-Type: application/json
 
 {
