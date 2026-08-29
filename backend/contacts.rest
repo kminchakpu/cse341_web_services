@@ -34,7 +34,7 @@ Content-Type: application/json
 GET https://cse341-web-services-1.onrender.com/contacts/single?id=6a9362ccde006c36262de4be
 
 ### Delete a contact
-DELETE https://cse341-web-services-1.onrender.com/contacts/6a9362ccde006c36262de4be
+DELETE https://cse341-web-services-1.onrender.com/contacts/6a9368f9b80070c5f0ef84ea
 
 
 
