@@ -2,5 +2,60 @@
 GET http://localhost:8080/contacts
 
 
-### Get a single contact
-GET http://localhost:8080/contacts/single?id=6a8dd0db4700930c6ca3f5c2
+### Get one contact
+GET http://localhost:8080/contacts/single?id=6a8dd0044700930c6ca3f5bc
+
+
+### Create a new contact
+POST http://localhost:8080/contacts
+Content-Type: application/json
+
+{
+  "firstName": "Kevin",
+  "lastName": "Minchakpu",
+  "email": "kevin@example.com",
+  "favoriteColor": "Blue",
+  "birthday": "1999-01-15"
+}
+
+### Update a contact
+PUT http://localhost:8080/contacts/6a9362ccde006c36262de4be
+Content-Type: application/json
+
+{
+  "firstName": "Kevin",
+  "lastName": "Minchakpu",
+  "email": "updated@example.com",
+  "favoriteColor": "Green",
+  "birthday": "1976-03-27"
+}
+
+### Get one contact
+GET http://localhost:8080/contacts/single?id=6a9362ccde006c36262de4be
+
+### Delete a contact
+DELETE http://localhost:8080/contacts/6a9362ccde006c36262de4be
+
+
+
+### Test missing required fields
+POST http://localhost:8080/contacts
+Content-Type: application/json
+
+{
+  "firstName": "Test",
+  "lastName": "Person"
+}
+
+
+### Test non-existent contact
+PUT http://localhost:8080/contacts/000000000000000000000000
+Content-Type: application/json
+
+{
+  "firstName": "Test",
+  "lastName": "Person",
+  "email": "test@example.com",
+  "favoriteColor": "Red",
+  "birthday": "2000-01-01"
+}
