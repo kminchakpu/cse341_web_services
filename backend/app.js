@@ -6,7 +6,7 @@ const swaggerUi = require("swagger-ui-express");
 
 
 const { connectDatabase } = require("./db/connect");
-const swaggerSpec = require("./swagger");
+const swaggerDocument = require('./swagger-output.json');
 const professionalRoutes = require("./routes/professionalRoutes");
 const contactsRoutes = require("./routes/contactsRoutes");
 
@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 8080;
 
 app.use(cors());
 app.use(express.json());
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/", professionalRoutes);
 app.use("/contacts", contactsRoutes);
