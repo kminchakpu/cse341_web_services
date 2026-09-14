@@ -16,82 +16,93 @@
     }
   ],
   "paths": {
-    "/professional": {
+    "/contacts": {
       "get": {
-        "description": "",
+        "summary": "Get all contacts",
+        "description": "Returns all contacts stored in the database.",
+        "tags": [
+          "Contacts"
+        ],
         "responses": {
           "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
+            "description": "A list of contacts."
           },
           "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/contacts/": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
+            "description": "Server error."
           }
         }
       },
       "post": {
-        "description": "",
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        },
+        "summary": "Create a new contact",
+        "description": "Creates a new contact in the MongoDB contacts collection.",
+        "tags": [
+          "Contacts"
+        ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
+                "required": [
+                  "firstName",
+                  "lastName",
+                  "email",
+                  "favoriteColor",
+                  "birthday"
+                ],
                 "properties": {
                   "firstName": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "Kevin"
                   },
                   "lastName": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "Minchakpu"
                   },
                   "email": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "kevin@example.com"
                   },
                   "favoriteColor": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "Blue"
                   },
                   "birthday": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "1999-01-15"
                   }
                 }
               }
             }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Contact created successfully."
+          },
+          "400": {
+            "description": "All fields are required."
+          },
+          "500": {
+            "description": "Server error."
           }
         }
       }
     },
     "/contacts/single": {
       "get": {
-        "description": "",
+        "summary": "Get a single contact",
+        "description": "Returns a contact using its MongoDB ID.",
+        "tags": [
+          "Contacts"
+        ],
         "parameters": [
           {
-            "name": "id",
             "in": "query",
+            "name": "id",
+            "required": true,
+            "description": "MongoDB ID of the contact.",
             "schema": {
               "type": "string"
             }
@@ -99,78 +110,98 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Contact found."
           },
           "404": {
-            "description": "Not Found"
+            "description": "Contact not found."
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Server error."
           }
         }
       }
     },
     "/contacts/{id}": {
       "put": {
-        "description": "",
+        "summary": "Update a contact",
+        "description": "Updates an existing contact using its MongoDB ID.",
+        "tags": [
+          "Contacts"
+        ],
         "parameters": [
           {
-            "name": "id",
             "in": "path",
+            "name": "id",
             "required": true,
+            "description": "MongoDB ID of the contact to update.",
             "schema": {
               "type": "string"
             }
           }
         ],
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        },
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
+                "required": [
+                  "firstName",
+                  "lastName",
+                  "email",
+                  "favoriteColor",
+                  "birthday"
+                ],
                 "properties": {
                   "firstName": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "Kevin"
                   },
                   "lastName": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "Minchakpu"
                   },
                   "email": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "updated@example.com"
                   },
                   "favoriteColor": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "Green"
                   },
                   "birthday": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "1999-01-15"
                   }
                 }
               }
             }
           }
+        },
+        "responses": {
+          "204": {
+            "description": "Contact updated successfully."
+          },
+          "404": {
+            "description": "Contact not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
         }
       },
       "delete": {
-        "description": "",
+        "summary": "Delete a contact",
+        "description": "Deletes a contact using its MongoDB ID.",
+        "tags": [
+          "Contacts"
+        ],
         "parameters": [
           {
-            "name": "id",
             "in": "path",
+            "name": "id",
             "required": true,
+            "description": "MongoDB ID of the contact to delete.",
             "schema": {
               "type": "string"
             }
@@ -178,16 +209,18 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Contact deleted successfully."
           },
           "404": {
-            "description": "Not Found"
+            "description": "Contact not found."
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Server error."
           }
         }
       }
     }
-  }
+  },
+  "components": {},
+  "tags": []
 }
