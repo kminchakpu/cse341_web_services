@@ -16,7 +16,23 @@
     }
   ],
   "paths": {
-    "/": {
+    "/professional": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/contacts/": {
       "get": {
         "description": "",
         "responses": {
@@ -69,7 +85,7 @@
         }
       }
     },
-    "/single": {
+    "/contacts/single": {
       "get": {
         "description": "",
         "parameters": [
@@ -94,7 +110,7 @@
         }
       }
     },
-    "/{id}": {
+    "/contacts/{id}": {
       "put": {
         "description": "",
         "parameters": [
