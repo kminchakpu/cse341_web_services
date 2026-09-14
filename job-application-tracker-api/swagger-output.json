@@ -1,0 +1,412 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Job Application Tracker API",
+    "version": "1.0.0",
+    "description": "REST API for managing job applications and companies."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Local development server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Applications",
+      "description": "Job application management endpoints"
+    },
+    {
+      "name": "Companies",
+      "description": "Company management endpoints"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/applications/": {
+      "get": {
+        "tags": [
+          "Applications"
+        ],
+        "summary": "Get all job applications",
+        "description": "Returns all job applications stored in the database.",
+        "responses": {
+          "200": {
+            "description": "Applications retrieved successfully"
+          },
+          "500": {
+            "description": "Error retrieving applications"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Applications"
+        ],
+        "summary": "Create a new job application",
+        "description": "Creates a new job application in MongoDB.",
+        "responses": {
+          "201": {
+            "description": "Application created successfully"
+          },
+          "400": {
+            "description": "Validation failed or required fields are missing"
+          },
+          "500": {
+            "description": "Error creating application"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Application"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications/{id}": {
+      "get": {
+        "tags": [
+          "Applications"
+        ],
+        "summary": "Get a job application by ID",
+        "description": "Returns one job application using its MongoDB ObjectId.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Application ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Application retrieved successfully"
+          },
+          "400": {
+            "description": "Invalid application ID"
+          },
+          "404": {
+            "description": "Application not found"
+          },
+          "500": {
+            "description": "Error retrieving application"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Applications"
+        ],
+        "summary": "Update a job application",
+        "description": "Updates an existing job application using its MongoDB ObjectId.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Application ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Application updated successfully"
+          },
+          "400": {
+            "description": "Invalid ID or validation failed"
+          },
+          "404": {
+            "description": "Application not found"
+          },
+          "500": {
+            "description": "Error updating application"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Application"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Applications"
+        ],
+        "summary": "Delete a job application",
+        "description": "Deletes a job application using its MongoDB ObjectId.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Application ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Application deleted successfully"
+          },
+          "400": {
+            "description": "Invalid application ID"
+          },
+          "404": {
+            "description": "Application not found"
+          },
+          "500": {
+            "description": "Error deleting application"
+          }
+        }
+      }
+    },
+    "/companies/": {
+      "get": {
+        "tags": [
+          "Companies"
+        ],
+        "summary": "Get all companies",
+        "description": "Returns all companies stored in the database.",
+        "responses": {
+          "200": {
+            "description": "Companies retrieved successfully"
+          },
+          "500": {
+            "description": "Error retrieving companies"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Companies"
+        ],
+        "summary": "Create a new company",
+        "description": "Creates a new company in MongoDB.",
+        "responses": {
+          "201": {
+            "description": "Company created successfully"
+          },
+          "400": {
+            "description": "Validation failed or required fields are missing"
+          },
+          "500": {
+            "description": "Error creating company"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Company"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/{id}": {
+      "get": {
+        "tags": [
+          "Companies"
+        ],
+        "summary": "Get a company by ID",
+        "description": "Returns one company using its MongoDB ObjectId.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Company ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Company retrieved successfully"
+          },
+          "400": {
+            "description": "Invalid company ID"
+          },
+          "404": {
+            "description": "Company not found"
+          },
+          "500": {
+            "description": "Error retrieving company"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Companies"
+        ],
+        "summary": "Update a company",
+        "description": "Updates an existing company using its MongoDB ObjectId.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Company ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Company updated successfully"
+          },
+          "400": {
+            "description": "Invalid ID or validation failed"
+          },
+          "404": {
+            "description": "Company not found"
+          },
+          "500": {
+            "description": "Error updating company"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Company"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Companies"
+        ],
+        "summary": "Delete a company",
+        "description": "Deletes a company using its MongoDB ObjectId.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Company ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Company deleted successfully"
+          },
+          "400": {
+            "description": "Invalid company ID"
+          },
+          "404": {
+            "description": "Company not found"
+          },
+          "500": {
+            "description": "Error deleting company"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Application": {
+        "type": "object",
+        "properties": {
+          "jobTitle": {
+            "type": "string",
+            "example": "Backend Developer"
+          },
+          "companyName": {
+            "type": "string",
+            "example": "Tech Solutions Ltd"
+          },
+          "location": {
+            "type": "string",
+            "example": "Lagos, Nigeria"
+          },
+          "applicationDate": {
+            "type": "string",
+            "example": "2026-09-14"
+          },
+          "status": {
+            "type": "string",
+            "example": "Applied"
+          },
+          "jobType": {
+            "type": "string",
+            "example": "Full-time"
+          },
+          "salaryRange": {
+            "type": "string",
+            "example": "₦900,000 - ₦1,300,000 monthly"
+          },
+          "jobUrl": {
+            "type": "string",
+            "example": "https://example.com/jobs/backend-developer"
+          },
+          "notes": {
+            "type": "string",
+            "example": "Application submitted successfully."
+          }
+        }
+      },
+      "Company": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Tech Solutions Ltd"
+          },
+          "industry": {
+            "type": "string",
+            "example": "Information Technology"
+          },
+          "website": {
+            "type": "string",
+            "example": "https://example.com"
+          },
+          "location": {
+            "type": "string",
+            "example": "Lagos, Nigeria"
+          },
+          "contactEmail": {
+            "type": "string",
+            "example": "careers@example.com"
+          }
+        }
+      }
+    }
+  }
+}
