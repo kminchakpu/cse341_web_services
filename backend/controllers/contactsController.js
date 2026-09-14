@@ -1,57 +1,45 @@
-const { getDatabase } = require("../db/connect");
-const { ObjectId } = require("mongodb");
-
+const mongoose = require("mongoose");
+const Contact = require("../models/Contact");
 const getAllContacts = async (req, res) => {
   try {
-    const database = getDatabase();
-
-    const contacts = await database
-      .collection("contacts")
-      .find()
-      .toArray();
-
+    const contacts = await Contact.find();
     res.status(200).json(contacts);
   } catch (error) {
     console.error("Error getting contacts:", error);
-
     res.status(500).json({
       message: "Error retrieving contacts",
     });
   }
 };
-
 const getSingleContact = async (req, res) => {
   try {
-    const database = getDatabase();
-
     const contactId = req.query.id;
-
-    const contact = await database
-      .collection("contacts")
-      .findOne({
-        _id: new ObjectId(contactId),
+    if (!contactId) {
+      return res.status(400).json({
+        message: "Contact ID is required",
       });
-
+    }
+    if (!mongoose.Types.ObjectId.isValid(contactId)) {
+      return res.status(400).json({
+        message: "Invalid contact ID",
+      });
+    }
+    const contact = await Contact.findById(contactId);
     if (!contact) {
       return res.status(404).json({
         message: "Contact not found",
       });
     }
-
     res.status(200).json(contact);
   } catch (error) {
     console.error("Error getting contact:", error);
-
     res.status(500).json({
       message: "Error retrieving contact",
     });
   }
 };
-
 const createContact = async (req, res) => {
   try {
-    const database = getDatabase();
-
     const {
       firstName,
       lastName,
@@ -59,130 +47,96 @@ const createContact = async (req, res) => {
       favoriteColor,
       birthday,
     } = req.body;
-
-    if (
-      !firstName ||
-      !lastName ||
-      !email ||
-      !favoriteColor ||
-      !birthday
-    ) {
-      return res.status(400).json({
-        message: "All fields are required",
-      });
-    }
-
-    const newContact = {
+    const contact = await Contact.create({
       firstName,
       lastName,
       email,
       favoriteColor,
       birthday,
-    };
-
-    const result = await database
-      .collection("contacts")
-      .insertOne(newContact);
-
-    res.status(201).json({
-      id: result.insertedId,
     });
+    res.status(201).json(contact);
   } catch (error) {
     console.error("Error creating contact:", error);
-
+    if (error.name === "ValidationError") {
+      return res.status(400).json({
+        message: "Validation failed",
+        errors: Object.values(error.errors).map(
+          (item) => item.message
+        ),
+      });
+    }
     res.status(500).json({
       message: "Error creating contact",
     });
   }
 };
-
 const updateContact = async (req, res) => {
   try {
-    const database = getDatabase();
-
     const contactId = req.params.id;
-
-    const {
-      firstName,
-      lastName,
-      email,
-      favoriteColor,
-      birthday,
-    } = req.body;
-
-    if (
-      !firstName ||
-      !lastName ||
-      !email ||
-      !favoriteColor ||
-      !birthday
-    ) {
+    if (!mongoose.Types.ObjectId.isValid(contactId)) {
       return res.status(400).json({
-        message: "All fields are required",
+        message: "Invalid contact ID",
       });
     }
-
-    const updatedContact = {
-      firstName,
-      lastName,
-      email,
-      favoriteColor,
-      birthday,
-    };
-
-    const result = await database
-      .collection("contacts")
-      .replaceOne(
-        { _id: new ObjectId(contactId) },
-        updatedContact
-      );
-
-    if (result.matchedCount === 0) {
+    const updatedContact = await Contact.findByIdAndUpdate(
+      contactId,
+      {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        favoriteColor: req.body.favoriteColor,
+        birthday: req.body.birthday,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    if (!updatedContact) {
       return res.status(404).json({
         message: "Contact not found",
       });
     }
-
-    res.status(204).send();
+    res.status(200).json(updatedContact);
   } catch (error) {
     console.error("Error updating contact:", error);
-
+    if (error.name === "ValidationError") {
+      return res.status(400).json({
+        message: "Validation failed",
+        errors: Object.values(error.errors).map(
+          (item) => item.message
+        ),
+      });
+    }
     res.status(500).json({
       message: "Error updating contact",
     });
   }
 };
-
 const deleteContact = async (req, res) => {
   try {
-    const database = getDatabase();
-
     const contactId = req.params.id;
-
-    const result = await database
-      .collection("contacts")
-      .deleteOne({
-        _id: new ObjectId(contactId),
+    if (!mongoose.Types.ObjectId.isValid(contactId)) {
+      return res.status(400).json({
+        message: "Invalid contact ID",
       });
-
-    if (result.deletedCount === 0) {
+    }
+    const deletedContact = await Contact.findByIdAndDelete(contactId);
+    if (!deletedContact) {
       return res.status(404).json({
         message: "Contact not found",
       });
     }
-
     res.status(200).json({
       message: "Contact deleted successfully",
     });
   } catch (error) {
     console.error("Error deleting contact:", error);
-
     res.status(500).json({
       message: "Error deleting contact",
     });
   }
 };
-
 module.exports = {
   getAllContacts,
   getSingleContact,
